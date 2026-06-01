@@ -52,23 +52,61 @@
   const data = await fetchSheet('coaches');
   if (data === null) { el.innerHTML = '<div class="empty-box" style="grid-column:1/-1;">⚾ 教練團資料整理中，敬請期待。</div>'; return; }
   if (!data.length) { el.innerHTML = '<div class="empty-box" style="grid-column:1/-1;">目前尚無教練資料。</div>'; return; }
-  el.innerHTML = data.map(c => {
+  // 逐一建立 DOM，intro 用 textContent 避免 XSS，同時保留換行
+  el.innerHTML = '';
+  data.forEach(c => {
     const initials = avatarInitials(c.name);
-    const avatarHtml = c.photo_url
-      ? `<div class="coach-avatar"><img src="${c.photo_url}" alt="${c.name}" onerror="this.parentElement.textContent='${initials}'"></div>`
-      : `<div class="coach-avatar">${initials}</div>`;
-    return `<div class="card">
-      <div class="coach-card">
-        ${avatarHtml}
-        <div class="coach-info">
-          <div class="coach-name">${c.name || ''}</div>
-          <div class="coach-title">${c.title || ''}</div>
-          ${c.license ? `<div class="coach-license">📋 ${c.license}</div>` : ''}
-          ${c.intro ? `<div class="coach-intro">${c.intro}</div>` : ''}
-        </div>
-      </div>
-    </div>`;
-  }).join('');
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    const avatarDiv = document.createElement('div');
+    avatarDiv.className = 'coach-avatar';
+    if (c.photo_url) {
+      const img = document.createElement('img');
+      img.src = c.photo_url;
+      img.alt = c.name || '';
+      img.onerror = () => { avatarDiv.textContent = initials; };
+      avatarDiv.appendChild(img);
+    } else {
+      avatarDiv.textContent = initials;
+    }
+
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'coach-info';
+
+    const nameEl = document.createElement('div');
+    nameEl.className = 'coach-name';
+    nameEl.textContent = c.name || '';
+
+    const titleEl = document.createElement('div');
+    titleEl.className = 'coach-title';
+    titleEl.textContent = c.title || '';
+
+    infoDiv.appendChild(nameEl);
+    infoDiv.appendChild(titleEl);
+
+    if (c.license) {
+      const licEl = document.createElement('div');
+      licEl.className = 'coach-license';
+      licEl.textContent = '📋 ' + c.license;
+      infoDiv.appendChild(licEl);
+    }
+
+    if (c.intro) {
+      const introEl = document.createElement('div');
+      introEl.className = 'coach-intro';
+      introEl.textContent = c.intro; // textContent 保留換行並防止 XSS
+      infoDiv.appendChild(introEl);
+    }
+
+    const coachCard = document.createElement('div');
+    coachCard.className = 'coach-card';
+    coachCard.appendChild(avatarDiv);
+    coachCard.appendChild(infoDiv);
+
+    card.appendChild(coachCard);
+    el.appendChild(card);
+  });
 })();
 </script>
 </body>

@@ -238,7 +238,7 @@ tr:hover td { background: #f8faff; }
 .coach-info .coach-name { font-weight: 700; color: var(--navy); font-size: 1rem; }
 .coach-info .coach-title { color: var(--gold); font-weight: 600; font-size: 0.82rem; }
 .coach-info .coach-license { font-size: 0.78rem; color: var(--text-muted); margin: 0.25rem 0; }
-.coach-info .coach-intro { font-size: 0.85rem; color: #444; line-height: 1.6; }
+.coach-info .coach-intro { font-size: 0.85rem; color: #4b5563; line-height: 1.9; letter-spacing: 0.02em; white-space: pre-line; }
 
 /* ---- HONOR ---- */
 .honor-year-group { margin-bottom: 1.5rem; }
