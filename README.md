@@ -1,13 +1,15 @@
-# 台中市力行國小棒球隊 LiSing Baseball
+# 台中市力行國小少棒隊 LiSing Baseball
 
 官方網站：**https://lisingbaseball.github.io/**
+
+> 台中市東區力行國小少棒隊，自 1988 年成軍，長期以紀律、基本功與扎實訓練聞名。
 
 ---
 
 ## 🔧 網站架構
 
 純靜態網站（HTML + CSS + JS），免費架設於 GitHub Pages。
-所有動態資料（隊員、公告、行事曆等）從 **Google Sheets** 讀取，教練只要修改 Google Sheets 即可更新網站。
+所有動態資料（隊員、公告、榮譽榜等）從 **Google Sheets** 讀取，教練只要修改 Google Sheets 即可更新網站。
 
 ---
 
@@ -118,10 +120,10 @@ const SHEET_URLS = {
 
 ```javascript
 const SITE_CONFIG = {
-  teamName:    '台中市力行國小棒球隊',
-  tagline:     '從基礎扎根，讓孩子在棒球中學會紀律、團隊與勇氣。',
+  teamName:    '台中市力行國小少棒隊',
+  tagline:     '從力行紅土出發，讓孩子在棒球中學會謙虛、態度與禮儀。',
   description: '這裡記錄...',
-  address:     '台中市南區力行路 ___號',
+  address:     '台中市東區進化路 223 號',
   email:       'xxx@yyy.edu.tw',
   facebook:    'https://www.facebook.com/...',
   instagram:   'https://www.instagram.com/...',

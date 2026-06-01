@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>聯絡我們 - 台中市力行國小棒球隊</title>
+<title>聯絡我們 - 台中市力行國小少棒隊</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -33,61 +33,75 @@
 </div>
 
 <main>
+
   <div class="grid-2">
 
-    <div>
+    <div style="display:flex;flex-direction:column;gap:1.1rem;">
+
+      <!-- 地址 -->
       <div class="contact-block">
         <h3>📍 學校地址</h3>
         <div class="contact-row">
           <div class="contact-label">地址</div>
-          <div class="contact-val" id="contact-address">台中市南區力行路 ___號（請填入正確地址）</div>
+          <div class="contact-val">台中市東區進化路 223 號</div>
         </div>
+      </div>
+
+      <!-- 聯絡方式 -->
+      <div class="contact-block">
+        <h3>📞 聯絡方式</h3>
         <div class="contact-row">
-          <div class="contact-label">聯絡窗口</div>
-          <div class="contact-val">請透過學校行政聯繫球隊教練</div>
+          <div class="contact-label">學校電話</div>
+          <div class="contact-val" style="font-weight:600;">04-2360-4412 轉棒球隊張教練</div>
         </div>
-        <div class="contact-row">
-          <div class="contact-label">信箱</div>
-          <div class="contact-val" id="contact-email">（請填入聯絡信箱）</div>
-        </div>
-        <p style="font-size:0.78rem;color:var(--text-muted);margin-top:0.75rem;">
-          ⚠️ 為保護個人隱私，私人電話不公開於網站。
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.75rem;line-height:1.6;">
+          為保護教練、學生與家長個人隱私，網站不公開私人電話與個人聯絡資料。如需聯繫球隊，請優先透過學校電話或官方社群管道。
         </p>
       </div>
 
+      <!-- 社群媒體 -->
       <div class="contact-block">
         <h3>📲 社群媒體</h3>
         <div class="contact-row">
           <div class="contact-label">Facebook 粉絲專頁</div>
-          <div class="contact-val"><a href="#" id="fb-link" target="_blank" rel="noopener">請填入粉專連結</a></div>
+          <div class="contact-val">
+            <a href="https://www.facebook.com/profile.php?id=100057147982674" target="_blank" rel="noopener" style="color:var(--navy);font-weight:600;">力行少棒官方粉絲專頁 ↗</a>
+          </div>
         </div>
         <div class="contact-row">
-          <div class="contact-label">Instagram</div>
-          <div class="contact-val"><a href="#" id="ig-link" target="_blank" rel="noopener">請填入 IG 連結</a></div>
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <div class="contact-block" style="height:100%;min-height:220px;">
-        <h3>🗺️ 地圖位置</h3>
-        <div id="map-container" style="margin-top:0.75rem;">
-          <div style="background:#f0f2f5;border-radius:var(--radius-sm);padding:2rem;text-align:center;color:var(--text-muted);font-size:0.88rem;">
-            請在 config.js 填入 Google Map 嵌入網址後，地圖將顯示於此。
-            <br><br>
-            <a href="https://maps.google.com" target="_blank" rel="noopener" class="btn btn-navy" style="font-size:0.82rem;">在 Google Maps 搜尋</a>
+          <div class="contact-label">Facebook 家長後援會</div>
+          <div class="contact-val">
+            <a href="https://www.facebook.com/profile.php?id=61560691028155" target="_blank" rel="noopener" style="color:var(--navy);font-weight:600;">力行少棒家長後援會 ↗</a>
           </div>
         </div>
       </div>
+
+    </div>
+
+    <!-- 地圖 -->
+    <div class="contact-block" style="min-height:280px;">
+      <h3>🗺️ 地圖位置</h3>
+      <div style="margin-top:0.75rem;">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3641.0!2d120.697!3d24.148!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34693d4e23f0e6b5%3A0x5a0b1234abcd!2z5Y-w5Lit5biC5p2-5Y2A5Yag5YaN5Zu-5bCP5a246Luo223號!5e0!3m2!1szh-TW!2stw!4v1680000000000"
+          width="100%" height="260"
+          style="border:0;border-radius:var(--radius-sm);"
+          allowfullscreen loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-top:0.5rem;">台中市東區進化路 223 號</p>
+      </div>
     </div>
 
   </div>
 
+  <!-- 加入球隊 -->
   <div class="card mt-3" style="background:var(--navy);color:white;text-align:center;">
-    <h3 style="color:var(--gold);margin-bottom:0.5rem;">⚾ 加入力行棒球</h3>
-    <p style="color:rgba(255,255,255,0.8);font-size:0.9rem;">有興趣讓孩子加入棒球隊嗎？歡迎聯繫學校了解招生資訊。</p>
-    <p style="color:rgba(255,255,255,0.6);font-size:0.8rem;margin-top:0.5rem;">訓練時間、招生條件，請以學校最新公告為準。</p>
+    <h3 style="color:var(--gold);margin-bottom:0.5rem;">⚾ 有興趣讓孩子加入力行少棒？</h3>
+    <p style="color:rgba(255,255,255,0.85);font-size:0.92rem;">歡迎來電或透過 Facebook 粉絲專頁詢問招生資訊。</p>
+    <p style="color:rgba(255,255,255,0.6);font-size:0.8rem;margin-top:0.4rem;">訓練時間、招生條件，請以學校最新公告為準。</p>
   </div>
+
 </main>
 
 <footer>
@@ -97,23 +111,5 @@
 </footer>
 <script src="js/config.js"></script>
 <script src="js/main.js"></script>
-<script>
-if (typeof SITE_CONFIG !== 'undefined') {
-  document.getElementById('contact-address').textContent = SITE_CONFIG.address;
-  document.getElementById('contact-email').textContent = SITE_CONFIG.email;
-  if (SITE_CONFIG.facebook && SITE_CONFIG.facebook !== '#') {
-    const fl = document.getElementById('fb-link');
-    fl.href = SITE_CONFIG.facebook; fl.textContent = 'Facebook 粉絲專頁';
-  }
-  if (SITE_CONFIG.instagram && SITE_CONFIG.instagram !== '#') {
-    const il = document.getElementById('ig-link');
-    il.href = SITE_CONFIG.instagram; il.textContent = 'Instagram';
-  }
-  if (SITE_CONFIG.mapEmbed) {
-    document.getElementById('map-container').innerHTML =
-      `<iframe src="${SITE_CONFIG.mapEmbed}" width="100%" height="260" style="border:0;border-radius:var(--radius-sm);" allowfullscreen loading="lazy"></iframe>`;
-  }
-}
-</script>
 </body>
 </html>

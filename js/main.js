@@ -61,9 +61,7 @@ function buildNav() {
     { href: 'players.html',  label: '隊員介紹' },
     { href: 'coaches.html',  label: '教練團' },
     { href: 'news.html',     label: '球隊公告' },
-    { href: 'calendar.html', label: '行事曆' },
     { href: 'honors.html',   label: '榮譽榜' },
-    { href: 'sponsors.html', label: '贊助芳名錄' },
     { href: 'contact.html',  label: '聯絡我們' },
   ];
   return pages.map(p => `<a href="${p.href}">${p.label}</a>`).join('');
