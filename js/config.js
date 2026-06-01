@@ -5,10 +5,10 @@
 // =============================================
 
 const SHEET_URLS = {
-  players:  '',   // 隊員名單
-  coaches:  '',   // 教練團
-  news:     '',   // 球隊公告
-  honors:   ''    // 榮譽榜
+  players:  'https://docs.google.com/spreadsheets/d/e/2PACX-1vTlop8U7C1HF-IM1gFNKVIF3QfpDNg7fyEM-bxiOxwGKwW055VHZrpCXKfEfoe5XD5ZsYV3f3C3wNad/pub?gid=0&single=true&output=csv',
+  coaches:  'https://docs.google.com/spreadsheets/d/e/2PACX-1vTlop8U7C1HF-IM1gFNKVIF3QfpDNg7fyEM-bxiOxwGKwW055VHZrpCXKfEfoe5XD5ZsYV3f3C3wNad/pub?gid=778020145&single=true&output=csv',
+  news:     'https://docs.google.com/spreadsheets/d/e/2PACX-1vTlop8U7C1HF-IM1gFNKVIF3QfpDNg7fyEM-bxiOxwGKwW055VHZrpCXKfEfoe5XD5ZsYV3f3C3wNad/pub?gid=877393229&single=true&output=csv',
+  honors:   'https://docs.google.com/spreadsheets/d/e/2PACX-1vTlop8U7C1HF-IM1gFNKVIF3QfpDNg7fyEM-bxiOxwGKwW055VHZrpCXKfEfoe5XD5ZsYV3f3C3wNad/pub?gid=1839433959&single=true&output=csv'
 };
 
 // ---- 網站基本資訊（可自行修改）----
