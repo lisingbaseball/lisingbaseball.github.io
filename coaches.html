@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>教練團 - 台中市力行國小棒球隊</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo-wrap">
+      <img src="assets/logo-placeholder.svg" alt="Logo">
+      <div class="logo-text">台中市力行國小棒球隊<span>LiSing Baseball</span></div>
+    </a>
+    <nav>
+      <a href="index.html">首頁</a><a href="about.html">關於球隊</a><a href="players.html">隊員介紹</a>
+      <a href="coaches.html">教練團</a><a href="news.html">球隊公告</a><a href="calendar.html">行事曆</a>
+      <a href="honors.html">榮譽榜</a><a href="sponsors.html">贊助芳名錄</a><a href="contact.html">聯絡我們</a>
+    </nav>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="index.html">首頁</a><a href="about.html">關於球隊</a><a href="players.html">隊員介紹</a>
+    <a href="coaches.html">教練團</a><a href="news.html">球隊公告</a><a href="calendar.html">行事曆</a>
+    <a href="honors.html">榮譽榜</a><a href="sponsors.html">贊助芳名錄</a><a href="contact.html">聯絡我們</a>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <h1>教練團介紹</h1>
+  <p>用心陪伴每位球員成長的師長</p>
+</div>
+
+<main>
+  <div class="grid-2" id="coaches-list">
+    <div class="loading-box" style="grid-column:1/-1;"><div class="spinner"></div>資料載入中…</div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-name">台中市力行國小棒球隊 LiSing Baseball</div>
+  <div class="footer-links"><a href="about.html">關於球隊</a><a href="contact.html">聯絡我們</a></div>
+  <div>© 2025 力行國小棒球隊．網站採 GitHub Pages 免費架設</div>
+</footer>
+<script src="js/config.js"></script>
+<script src="js/sheets.js"></script>
+<script src="js/main.js"></script>
+<script>
+(async () => {
+  const el = document.getElementById('coaches-list');
+  const data = await fetchSheet('coaches');
+  if (data === null) { el.innerHTML = '<div class="empty-box" style="grid-column:1/-1;">⚾ 教練團資料整理中，敬請期待。</div>'; return; }
+  if (!data.length) { el.innerHTML = '<div class="empty-box" style="grid-column:1/-1;">目前尚無教練資料。</div>'; return; }
+  el.innerHTML = data.map(c => {
+    const initials = avatarInitials(c.name);
+    const avatarHtml = c.photo_url
+      ? `<div class="coach-avatar"><img src="${c.photo_url}" alt="${c.name}" onerror="this.parentElement.textContent='${initials}'"></div>`
+      : `<div class="coach-avatar">${initials}</div>`;
+    return `<div class="card">
+      <div class="coach-card">
+        ${avatarHtml}
+        <div class="coach-info">
+          <div class="coach-name">${c.name || ''}</div>
+          <div class="coach-title">${c.title || ''}</div>
+          ${c.license ? `<div class="coach-license">📋 ${c.license}</div>` : ''}
+          ${c.intro ? `<div class="coach-intro">${c.intro}</div>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+})();
+</script>
+</body>
+</html>

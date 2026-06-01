@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>行事曆 - 台中市力行國小棒球隊</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo-wrap">
+      <img src="assets/logo-placeholder.svg" alt="Logo">
+      <div class="logo-text">台中市力行國小棒球隊<span>LiSing Baseball</span></div>
+    </a>
+    <nav>
+      <a href="index.html">首頁</a><a href="about.html">關於球隊</a><a href="players.html">隊員介紹</a>
+      <a href="coaches.html">教練團</a><a href="news.html">球隊公告</a><a href="calendar.html">行事曆</a>
+      <a href="honors.html">榮譽榜</a><a href="sponsors.html">贊助芳名錄</a><a href="contact.html">聯絡我們</a>
+    </nav>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="index.html">首頁</a><a href="about.html">關於球隊</a><a href="players.html">隊員介紹</a>
+    <a href="coaches.html">教練團</a><a href="news.html">球隊公告</a><a href="calendar.html">行事曆</a>
+    <a href="honors.html">榮譽榜</a><a href="sponsors.html">贊助芳名錄</a><a href="contact.html">聯絡我們</a>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <h1>行事曆</h1>
+  <p>訓練時程、比賽排程、重要日期</p>
+</div>
+
+<main>
+  <div id="cal-list">
+    <div class="loading-box"><div class="spinner"></div>資料載入中…</div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-name">台中市力行國小棒球隊 LiSing Baseball</div>
+  <div class="footer-links"><a href="about.html">關於球隊</a><a href="contact.html">聯絡我們</a></div>
+  <div>© 2025 力行國小棒球隊．網站採 GitHub Pages 免費架設</div>
+</footer>
+<script src="js/config.js"></script>
+<script src="js/sheets.js"></script>
+<script src="js/main.js"></script>
+<script>
+(async () => {
+  const el = document.getElementById('cal-list');
+  const data = await fetchSheet('calendar');
+  if (data === null) { showPending(el, '行事曆'); return; }
+  if (!data.length) { showEmpty(el, '目前尚無排程。'); return; }
+
+  const sorted = data.sort((a,b) => a.date.localeCompare(b.date));
+
+  // 依月份分組
+  const groups = {};
+  sorted.forEach(item => {
+    const d = new Date(item.date);
+    const key = isNaN(d) ? item.date.slice(0,7) : `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(item);
+  });
+
+  el.innerHTML = Object.keys(groups).sort().map(monthKey => {
+    const [y, m] = monthKey.split('-');
+    const label = `${y} 年 ${parseInt(m)} 月`;
+    const items = groups[monthKey].map(c => {
+      const {m: cm, d: cd} = getMonthDay(c.date);
+      return `<div class="calendar-item">
+        <div class="cal-date-box"><div class="cal-month">${cm}月</div><div class="cal-day">${cd}</div></div>
+        <div class="cal-info">
+          <div class="cal-title">${c.title || '活動'}</div>
+          <div class="cal-loc">${c.time ? '⏰ ' + c.time + '　' : ''}${c.location ? '📍 ' + c.location : ''}</div>
+          ${c.note ? `<div style="font-size:0.78rem;color:var(--text-muted);margin-top:0.2rem;">備註：${c.note}</div>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="card mb-2">
+      <div style="font-weight:700;color:var(--navy);margin-bottom:0.75rem;font-size:1rem;border-bottom:2px solid var(--gold);padding-bottom:0.4rem;">📅 ${label}</div>
+      ${items}
+    </div>`;
+  }).join('');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>隊員介紹 - 台中市力行國小棒球隊</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo-wrap">
+      <img src="assets/logo-placeholder.svg" alt="Logo">
+      <div class="logo-text">台中市力行國小棒球隊<span>LiSing Baseball</span></div>
+    </a>
+    <nav>
+      <a href="index.html">首頁</a><a href="about.html">關於球隊</a><a href="players.html">隊員介紹</a>
+      <a href="coaches.html">教練團</a><a href="news.html">球隊公告</a><a href="calendar.html">行事曆</a>
+      <a href="honors.html">榮譽榜</a><a href="sponsors.html">贊助芳名錄</a><a href="contact.html">聯絡我們</a>
+    </nav>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="index.html">首頁</a><a href="about.html">關於球隊</a><a href="players.html">隊員介紹</a>
+    <a href="coaches.html">教練團</a><a href="news.html">球隊公告</a><a href="calendar.html">行事曆</a>
+    <a href="honors.html">榮譽榜</a><a href="sponsors.html">贊助芳名錄</a><a href="contact.html">聯絡我們</a>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <h1>隊員介紹</h1>
+  <p>力行少棒的每一位小球員</p>
+</div>
+
+<main>
+  <div style="background:#fffbf0;border:1px solid #f0d88a;border-radius:var(--radius);padding:0.85rem 1rem;margin-bottom:1.5rem;font-size:0.84rem;color:#7a5800;">
+    ⚠️ <strong>隱私提醒：</strong>刊登隊員照片與完整姓名前，請確認已取得家長書面同意。本網站不刊登生日、住址、電話等個人資料。
+  </div>
+  <div class="grid-4" id="players-list">
+    <div class="loading-box" style="grid-column:1/-1;"><div class="spinner"></div>資料載入中…</div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-name">台中市力行國小棒球隊 LiSing Baseball</div>
+  <div class="footer-links"><a href="about.html">關於球隊</a><a href="contact.html">聯絡我們</a></div>
+  <div>© 2025 力行國小棒球隊．網站採 GitHub Pages 免費架設</div>
+</footer>
+<script src="js/config.js"></script>
+<script src="js/sheets.js"></script>
+<script src="js/main.js"></script>
+<script>
+(async () => {
+  const el = document.getElementById('players-list');
+  const data = await fetchSheet('players');
+  if (data === null) { el.innerHTML = '<div class="empty-box" style="grid-column:1/-1;">⚾ 隊員資料整理中，敬請期待。</div>'; return; }
+  if (!data.length) { el.innerHTML = '<div class="empty-box" style="grid-column:1/-1;">目前尚無隊員資料。</div>'; return; }
+  const sorted = data.sort((a,b) => (parseInt(a.number)||999) - (parseInt(b.number)||999));
+  el.innerHTML = sorted.map(p => {
+    const initials = avatarInitials(p.name);
+    const avatarHtml = p.photo_url
+      ? `<div class="player-avatar"><img src="${p.photo_url}" alt="${p.name}" onerror="this.parentElement.textContent='${initials}'"></div>`
+      : `<div class="player-avatar">${initials}</div>`;
+    return `<div class="card player-card">
+      ${avatarHtml}
+      ${p.number ? `<div class="player-number">#${p.number}</div>` : ''}
+      <div class="player-name">${p.name || '（姓名）'}</div>
+      <div class="player-grade">${p.grade ? p.grade + '年級' : ''}</div>
+    </div>`;
+  }).join('');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>球隊公告 - 台中市力行國小棒球隊</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo-wrap">
+      <img src="assets/logo-placeholder.svg" alt="Logo">
+      <div class="logo-text">台中市力行國小棒球隊<span>LiSing Baseball</span></div>
+    </a>
+    <nav>
+      <a href="index.html">首頁</a><a href="about.html">關於球隊</a><a href="players.html">隊員介紹</a>
+      <a href="coaches.html">教練團</a><a href="news.html">球隊公告</a><a href="calendar.html">行事曆</a>
+      <a href="honors.html">榮譽榜</a><a href="sponsors.html">贊助芳名錄</a><a href="contact.html">聯絡我們</a>
+    </nav>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="index.html">首頁</a><a href="about.html">關於球隊</a><a href="players.html">隊員介紹</a>
+    <a href="coaches.html">教練團</a><a href="news.html">球隊公告</a><a href="calendar.html">行事曆</a>
+    <a href="honors.html">榮譽榜</a><a href="sponsors.html">贊助芳名錄</a><a href="contact.html">聯絡我們</a>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <h1>球隊公告</h1>
+  <p>訓練異動、賽事通知、重要訊息</p>
+</div>
+
+<main>
+  <div id="news-list">
+    <div class="loading-box"><div class="spinner"></div>資料載入中…</div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-name">台中市力行國小棒球隊 LiSing Baseball</div>
+  <div class="footer-links"><a href="about.html">關於球隊</a><a href="contact.html">聯絡我們</a></div>
+  <div>© 2025 力行國小棒球隊．網站採 GitHub Pages 免費架設</div>
+</footer>
+<script src="js/config.js"></script>
+<script src="js/sheets.js"></script>
+<script src="js/main.js"></script>
+<script>
+(async () => {
+  const el = document.getElementById('news-list');
+  const data = await fetchSheet('news');
+  if (data === null) { showPending(el, '球隊公告'); return; }
+  if (!data.length) { showEmpty(el, '目前尚無公告。'); return; }
+  const sorted = data.sort((a,b) => {
+    if (a.pinned === 'true' && b.pinned !== 'true') return -1;
+    if (b.pinned === 'true' && a.pinned !== 'true') return 1;
+    return b.date.localeCompare(a.date);
+  });
+  el.innerHTML = sorted.map(n => `
+    <div class="card news-card mb-2">
+      <div class="news-card-header">
+        ${n.pinned==='true' ? '<span class="badge badge-pinned">置頂</span>' : ''}
+        ${n.category ? `<span class="badge badge-gray">${n.category}</span>` : ''}
+        <span class="news-card-date">${formatDate(n.date)}</span>
+      </div>
+      <div class="news-card-title">${n.title || '（未填標題）'}</div>
+      ${n.content ? `<div class="news-card-content">${n.content}</div>` : ''}
+    </div>`).join('');
+})();
+</script>
+</body>
+</html>
