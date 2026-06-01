@@ -22,12 +22,10 @@
 
 #### 工作表：players（隊員名單）
 ```
-number	name	grade	photo_url
+name	photo_url
 ```
-> - number：背號（數字）
 > - name：姓名（請確認已取得家長同意）
-> - grade：年級（如 4、5、6）
-> - photo_url：照片網址（可空白，需家長同意）
+> - photo_url：照片網址（可空白；空白時自動顯示預設圖片）
 
 #### 工作表：coaches（教練團）
 ```

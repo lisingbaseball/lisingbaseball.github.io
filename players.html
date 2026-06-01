@@ -36,7 +36,7 @@
   <div style="background:#fffbf0;border:1px solid #f0d88a;border-radius:var(--radius);padding:0.85rem 1rem;margin-bottom:1.5rem;font-size:0.84rem;color:#7a5800;">
     ⚠️ <strong>隱私提醒：</strong>刊登隊員照片與完整姓名前，請確認已取得家長書面同意。本網站不刊登生日、住址、電話等個人資料。
   </div>
-  <div class="grid-4" id="players-list">
+  <div id="players-list" style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;">
     <div class="loading-box" style="grid-column:1/-1;"><div class="spinner"></div>資料載入中…</div>
   </div>
 </main>
@@ -49,23 +49,26 @@
 <script src="js/config.js"></script>
 <script src="js/sheets.js"></script>
 <script src="js/main.js"></script>
+<style>
+  #players-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  @media (min-width: 600px)  { #players-list { grid-template-columns: repeat(4, 1fr); } }
+  @media (min-width: 900px)  { #players-list { grid-template-columns: repeat(5, 1fr); } }
+  .p-card { background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(13,43,84,0.07); text-align: center; padding: 1rem 0.75rem; }
+  .p-photo { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 8px; display: block; background: #eef2f8; }
+  .p-name  { margin-top: 0.6rem; font-weight: 700; color: #0d2b54; font-size: 0.95rem; }
+</style>
 <script>
 (async () => {
   const el = document.getElementById('players-list');
   const data = await fetchSheet('players');
   if (data === null) { el.innerHTML = '<div class="empty-box" style="grid-column:1/-1;">⚾ 隊員資料整理中，敬請期待。</div>'; return; }
   if (!data.length) { el.innerHTML = '<div class="empty-box" style="grid-column:1/-1;">目前尚無隊員資料。</div>'; return; }
-  const sorted = data.sort((a,b) => (parseInt(a.number)||999) - (parseInt(b.number)||999));
-  el.innerHTML = sorted.map(p => {
-    const initials = avatarInitials(p.name);
-    const avatarHtml = p.photo_url
-      ? `<div class="player-avatar"><img src="${p.photo_url}" alt="${p.name}" onerror="this.parentElement.textContent='${initials}'"></div>`
-      : `<div class="player-avatar">${initials}</div>`;
-    return `<div class="card player-card">
-      ${avatarHtml}
-      ${p.number ? `<div class="player-number">#${p.number}</div>` : ''}
-      <div class="player-name">${p.name || '（姓名）'}</div>
-      <div class="player-grade">${p.grade ? p.grade + '年級' : ''}</div>
+  el.innerHTML = data.map(p => {
+    const src = p.photo_url ? p.photo_url : 'assets/player-placeholder.svg';
+    const alt = p.name || '隊員';
+    return `<div class="p-card">
+      <img class="p-photo" src="${src}" alt="${alt}" onerror="this.src='assets/player-placeholder.svg'">
+      <div class="p-name">${p.name || ''}</div>
     </div>`;
   }).join('');
 })();
