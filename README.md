@@ -47,27 +47,6 @@ date	title	content	category	pinned
 > - category：類別（如 訓練通知、賽事資訊）
 > - pinned：是否置頂（填 true 或 false）
 
-#### 工作表：calendar（行事曆）
-```
-date	time	title	location	note
-```
-> - date：日期（格式 2025-04-01）
-> - time：時間（如 09:00）
-> - title：事項名稱
-> - location：地點
-> - note：備註
-
-#### 工作表：sponsors（贊助芳名錄）
-```
-name	item	amount	date	note	logo_url
-```
-> - name：贊助者或公司名稱
-> - item：贊助項目（如 球具、比賽費用）
-> - amount：金額（可空白）
-> - date：日期（格式 2025-04-01）
-> - note：備註
-> - logo_url：LOGO 圖片網址（可空白）
-
 #### 工作表：honors（榮譽榜）
 ```
 year	event	result	note
@@ -97,8 +76,6 @@ const SHEET_URLS = {
   players:  'https://docs.google.com/spreadsheets/d/xxx/pub?gid=xxx&single=true&output=csv',
   coaches:  'https://docs.google.com/spreadsheets/d/xxx/pub?gid=xxx&single=true&output=csv',
   news:     'https://docs.google.com/spreadsheets/d/xxx/pub?gid=xxx&single=true&output=csv',
-  calendar: 'https://docs.google.com/spreadsheets/d/xxx/pub?gid=xxx&single=true&output=csv',
-  sponsors: 'https://docs.google.com/spreadsheets/d/xxx/pub?gid=xxx&single=true&output=csv',
   honors:   'https://docs.google.com/spreadsheets/d/xxx/pub?gid=xxx&single=true&output=csv'
 };
 ```
@@ -120,14 +97,6 @@ const SHEET_URLS = {
 ### 如何更新教練團
 1. 打開 Google Sheets → coaches 工作表
 2. 修改或新增教練資料
-
-### 如何更新行事曆
-1. 打開 Google Sheets → calendar 工作表
-2. 新增活動列，填入日期與地點
-
-### 如何更新贊助芳名錄
-1. 打開 Google Sheets → sponsors 工作表
-2. 新增贊助記錄
 
 ### 如何更新榮譽榜
 1. 打開 Google Sheets → honors 工作表

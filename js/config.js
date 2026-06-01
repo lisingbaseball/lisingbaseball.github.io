@@ -8,8 +8,6 @@ const SHEET_URLS = {
   players:  '',   // 隊員名單
   coaches:  '',   // 教練團
   news:     '',   // 球隊公告
-  calendar: '',   // 行事曆
-  sponsors: '',   // 贊助芳名錄
   honors:   ''    // 榮譽榜
 };
 

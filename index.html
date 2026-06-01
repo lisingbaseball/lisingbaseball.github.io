@@ -16,30 +16,18 @@
       <div class="logo-text">台中市力行國小棒球隊<span>LiSing Baseball</span></div>
     </a>
     <nav>
-      <a href="index.html">首頁</a>
-      <a href="about.html">關於球隊</a>
-      <a href="players.html">隊員介紹</a>
-      <a href="coaches.html">教練團</a>
-      <a href="news.html">球隊公告</a>
-      <a href="calendar.html">行事曆</a>
-      <a href="honors.html">榮譽榜</a>
-      <a href="sponsors.html">贊助芳名錄</a>
-      <a href="contact.html">聯絡我們</a>
+      <a href="index.html">首頁</a><a href="about.html">關於球隊</a><a href="players.html">隊員介紹</a>
+      <a href="coaches.html">教練團</a><a href="news.html">球隊公告</a>
+      <a href="honors.html">榮譽榜</a><a href="contact.html">聯絡我們</a>
     </nav>
     <button class="hamburger" id="hamburger" aria-label="選單">
       <span></span><span></span><span></span>
     </button>
   </div>
   <nav class="mobile-nav" id="mobile-nav">
-    <a href="index.html">首頁</a>
-    <a href="about.html">關於球隊</a>
-    <a href="players.html">隊員介紹</a>
-    <a href="coaches.html">教練團</a>
-    <a href="news.html">球隊公告</a>
-    <a href="calendar.html">行事曆</a>
-    <a href="honors.html">榮譽榜</a>
-    <a href="sponsors.html">贊助芳名錄</a>
-    <a href="contact.html">聯絡我們</a>
+    <a href="index.html">首頁</a><a href="about.html">關於球隊</a><a href="players.html">隊員介紹</a>
+    <a href="coaches.html">教練團</a><a href="news.html">球隊公告</a>
+    <a href="honors.html">榮譽榜</a><a href="contact.html">聯絡我們</a>
   </nav>
 </header>
 
@@ -51,7 +39,7 @@
   <div class="hero-btns">
     <a href="players.html" class="btn btn-primary">認識隊員</a>
     <a href="news.html" class="btn btn-outline">查看公告</a>
-    <a href="calendar.html" class="btn btn-outline">近期活動</a>
+    <a href="honors.html" class="btn btn-outline">榮譽榜</a>
   </div>
 </section>
 
@@ -71,19 +59,6 @@
       </div>
     </div>
 
-    <!-- 近期行事曆 -->
-    <div>
-      <div class="section-title">
-        <div class="section-title-dot"></div>
-        <h2>近期活動</h2>
-        <div class="section-title-bar"></div>
-        <a href="calendar.html" style="font-size:0.82rem;color:var(--text-muted);white-space:nowrap;">更多 &rsaquo;</a>
-      </div>
-      <div class="card" id="home-calendar">
-        <div class="loading-box"><div class="spinner"></div>資料載入中…</div>
-      </div>
-    </div>
-
     <!-- 榮譽榜 -->
     <div>
       <div class="section-title">
@@ -93,19 +68,6 @@
         <a href="honors.html" style="font-size:0.82rem;color:var(--text-muted);white-space:nowrap;">完整榜 &rsaquo;</a>
       </div>
       <div class="card" id="home-honors">
-        <div class="loading-box"><div class="spinner"></div>資料載入中…</div>
-      </div>
-    </div>
-
-    <!-- 贊助感謝 -->
-    <div>
-      <div class="section-title">
-        <div class="section-title-dot"></div>
-        <h2>感謝贊助</h2>
-        <div class="section-title-bar"></div>
-        <a href="sponsors.html" style="font-size:0.82rem;color:var(--text-muted);white-space:nowrap;">芳名錄 &rsaquo;</a>
-      </div>
-      <div class="card" id="home-sponsors">
         <div class="loading-box"><div class="spinner"></div>資料載入中…</div>
       </div>
     </div>
@@ -136,17 +98,9 @@
       <div style="font-size:1.8rem;margin-bottom:0.5rem;">📢</div>
       <div style="font-weight:600;">球隊公告</div>
     </a>
-    <a href="calendar.html" class="card text-center" style="color:var(--navy);">
-      <div style="font-size:1.8rem;margin-bottom:0.5rem;">📅</div>
-      <div style="font-weight:600;">行事曆</div>
-    </a>
     <a href="honors.html" class="card text-center" style="color:var(--navy);">
       <div style="font-size:1.8rem;margin-bottom:0.5rem;">🏆</div>
       <div style="font-weight:600;">榮譽榜</div>
-    </a>
-    <a href="sponsors.html" class="card text-center" style="color:var(--navy);">
-      <div style="font-size:1.8rem;margin-bottom:0.5rem;">🤝</div>
-      <div style="font-weight:600;">贊助芳名錄</div>
     </a>
     <a href="contact.html" class="card text-center" style="color:var(--navy);">
       <div style="font-size:1.8rem;margin-bottom:0.5rem;">📬</div>
@@ -190,28 +144,6 @@
       </div>`).join('');
   }
 
-  // 行事曆
-  const calEl = document.getElementById('home-calendar');
-  const calData = await fetchSheet('calendar');
-  if (calData === null) { showPending(calEl, '行事曆'); }
-  else if (!calData.length) { showEmpty(calEl, '目前尚無活動。'); }
-  else {
-    const today = new Date(); today.setHours(0,0,0,0);
-    const upcoming = calData
-      .filter(c => { const d = new Date(c.date); return !isNaN(d) && d >= today; })
-      .sort((a,b) => a.date.localeCompare(b.date))
-      .slice(0, 5);
-    if (!upcoming.length) { showEmpty(calEl, '近期無排程活動。'); return; }
-    calEl.innerHTML = upcoming.map(c => {
-      const {m, d} = getMonthDay(c.date);
-      return `<div class="calendar-item">
-        <div class="cal-date-box"><div class="cal-month">${m}月</div><div class="cal-day">${d}</div></div>
-        <div class="cal-info">
-          <div class="cal-title">${c.title || '活動'}</div>
-          <div class="cal-loc">${c.time ? c.time + '　' : ''}${c.location || ''}</div>
-        </div></div>`;}).join('');
-  }
-
   // 榮譽
   const honorsEl = document.getElementById('home-honors');
   const honorsData = await fetchSheet('honors');
@@ -224,18 +156,6 @@
         <span class="badge badge-navy">${h.year}</span>
         <div class="news-item-title" style="color:var(--red);">${h.result} <span style="color:var(--text);font-weight:400;">— ${h.event}</span></div>
       </div>`).join('');
-  }
-
-  // 贊助
-  const spEl = document.getElementById('home-sponsors');
-  const spData = await fetchSheet('sponsors');
-  if (spData === null) { showPending(spEl, '贊助芳名錄'); }
-  else if (!spData.length) { showEmpty(spEl, '感謝所有支持力行棒球的朋友！'); }
-  else {
-    const recent = spData.slice(0, 8);
-    spEl.innerHTML = '<div style="display:flex;flex-wrap:wrap;gap:0.5rem;">' +
-      recent.map(s => `<span class="badge badge-gold" style="font-size:0.85rem;padding:0.3rem 0.7rem;">${s.name}</span>`).join('') +
-      '</div><div class="mt-1" style="font-size:0.78rem;color:var(--text-muted);">感謝所有贊助夥伴的支持！<a href="sponsors.html">查看完整芳名錄</a></div>';
   }
 })();
 </script>
