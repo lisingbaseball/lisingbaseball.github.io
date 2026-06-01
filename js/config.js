@@ -15,11 +15,11 @@ const SHEET_URLS = {
 const SITE_CONFIG = {
   teamName:    '台中市力行國小棒球隊',
   teamNameEn:  'LiSing Baseball',
-  tagline:     '從基礎扎根，讓孩子在棒球中學會紀律、團隊與勇氣。',
-  description: '這裡記錄孩子們的訓練、比賽、榮耀與成長，也感謝每一位支持力行少棒的家長、教練與贊助夥伴。',
-  address:     '台中市南區力行路 ___號（請填入正確地址）',
-  email:       '（請填入聯絡信箱）',
-  facebook:    '#',   // Facebook 粉專網址
-  instagram:   '#',   // Instagram 網址
-  mapEmbed:    ''     // Google Map 嵌入網址
+  tagline:     '從力行紅土出發，讓孩子在棒球中學會謙虛、態度與禮儀。',
+  description: '台中市東區力行國小少棒隊自 1988 年成軍以來，長期以紀律、基本功與扎實訓練聞名。',
+  address:     '台中市東區進化路 223 號',
+  email:       'lisingbaseball@gmail.com',
+  facebook:    'https://www.facebook.com/profile.php?id=100057147982674',
+  facebook2:   'https://www.facebook.com/profile.php?id=61560691028155',
+  mapEmbed:    ''
 };
