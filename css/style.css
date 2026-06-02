@@ -349,3 +349,26 @@ footer .footer-links { display: flex; gap: 1rem; justify-content: center; flex-w
 .news-images.multi { grid-template-columns: 1fr; }
 .news-image { width: 100%; max-width: 100%; border-radius: 14px; box-shadow: 0 10px 24px rgba(15,23,42,0.16); display: block; height: auto; }
 @media (min-width: 768px) { .news-images.multi { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ---- ALUMNI PAGE ---- */
+.alumni-group { margin-bottom: 1.75rem; }
+.alumni-year-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.15rem; font-weight: 700;
+  color: var(--navy);
+  border-left: 4px solid var(--gold);
+  padding-left: 0.75rem;
+  margin-bottom: 0.65rem;
+}
+.alumni-table { font-size: 0.84rem; }
+.alumni-table th { font-size: 0.78rem; letter-spacing: 0.03em; }
+.alumni-note { color: #8a95a3; font-size: 0.78rem; }
+.alumni-badge {
+  display: inline-block;
+  padding: 0.18rem 0.55rem;
+  border-radius: 20px;
+  font-size: 0.72rem; font-weight: 600;
+  white-space: nowrap;
+}
+.alumni-badge.active  { background: #d1fae5; color: #065f46; }
+.alumni-badge.retired { background: #f1f3f5; color: #6b7280; }

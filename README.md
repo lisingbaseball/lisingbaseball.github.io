@@ -41,13 +41,14 @@ name	title	license	intro	photo_url
 
 #### 工作表：news（球隊公告）
 ```
-date	title	content	category	pinned
+date	title	content	category	pinned	image_urls
 ```
 > - date：日期（格式 2025-04-01）
 > - title：標題
 > - content：內容（可換行）
 > - category：類別（如 訓練通知、賽事資訊）
 > - pinned：是否置頂（填 true 或 false）
+> - image_urls：圖片網址（可空白；多張圖片用 | 分隔，例如：https://xxx.jpg|https://yyy.jpg）
 
 #### 工作表：honors（榮譽榜）
 ```
@@ -130,6 +131,16 @@ const SITE_CONFIG = {
   mapEmbed:    'https://www.google.com/maps/embed?...'
 };
 ```
+
+---
+
+## 🌟 職棒校友頁面（alumni.html）
+
+`alumni.html` 為靜態頁面，資料直接寫在 HTML 中。
+
+若有現役／退役狀態異動，或所屬球隊變更，請直接編輯 `alumni.html` 對應球員的 `<span class="alumni-badge">` 與球隊名稱，然後 `git push` 更新。
+
+建議每年賽季初（約 3 月）檢查一次現役球員狀態是否有變動。
 
 ---
 
