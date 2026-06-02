@@ -52,21 +52,76 @@
   const data = await fetchSheet('news');
   if (data === null) { showPending(el, '球隊公告'); return; }
   if (!data.length) { showEmpty(el, '目前尚無公告。'); return; }
+
   const sorted = data.sort((a,b) => {
     if (a.pinned === 'true' && b.pinned !== 'true') return -1;
     if (b.pinned === 'true' && a.pinned !== 'true') return 1;
     return b.date.localeCompare(a.date);
   });
-  el.innerHTML = sorted.map(n => `
-    <div class="card news-card mb-2">
-      <div class="news-card-header">
-        ${n.pinned==='true' ? '<span class="badge badge-pinned">置頂</span>' : ''}
-        ${n.category ? `<span class="badge badge-gray">${n.category}</span>` : ''}
-        <span class="news-card-date">${formatDate(n.date)}</span>
-      </div>
-      <div class="news-card-title">${n.title || '（未填標題）'}</div>
-      ${n.content ? `<div class="news-card-content">${n.content}</div>` : ''}
-    </div>`).join('');
+
+  el.innerHTML = '';
+
+  sorted.forEach(n => {
+    const card = document.createElement('div');
+    card.className = 'card news-card mb-2';
+
+    // 標題列
+    const header = document.createElement('div');
+    header.className = 'news-card-header';
+
+    if (n.pinned === 'true') {
+      const pin = document.createElement('span');
+      pin.className = 'badge badge-pinned';
+      pin.textContent = '置頂';
+      header.appendChild(pin);
+    }
+    if (n.category) {
+      const cat = document.createElement('span');
+      cat.className = 'badge badge-gray';
+      cat.textContent = n.category;
+      header.appendChild(cat);
+    }
+    const dateEl = document.createElement('span');
+    dateEl.className = 'news-card-date';
+    dateEl.textContent = formatDate(n.date);
+    header.appendChild(dateEl);
+    card.appendChild(header);
+
+    // 標題
+    const titleEl = document.createElement('div');
+    titleEl.className = 'news-card-title';
+    titleEl.textContent = n.title || '（未填標題）';
+    card.appendChild(titleEl);
+
+    // 內容
+    if (n.content) {
+      const contentEl = document.createElement('div');
+      contentEl.className = 'news-card-content';
+      contentEl.textContent = n.content;
+      card.appendChild(contentEl);
+    }
+
+    // 圖片（image_urls 用 | 分隔）
+    if (n.image_urls) {
+      const urls = n.image_urls.split('|').map(u => u.trim()).filter(u => u);
+      if (urls.length > 0) {
+        const imgWrap = document.createElement('div');
+        imgWrap.className = urls.length > 1 ? 'news-images multi' : 'news-images';
+        urls.forEach(url => {
+          const img = document.createElement('img');
+          img.src = url;
+          img.alt = n.title || '公告圖片';
+          img.className = 'news-image';
+          img.loading = 'lazy';
+          img.onerror = () => { img.style.display = 'none'; };
+          imgWrap.appendChild(img);
+        });
+        card.appendChild(imgWrap);
+      }
+    }
+
+    el.appendChild(card);
+  });
 })();
 </script>
 </body>

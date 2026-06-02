@@ -343,3 +343,9 @@ footer .footer-links { display: flex; gap: 1rem; justify-content: center; flex-w
   .video-section { padding: 40px 16px; }
   .video-frame { border-radius: 12px; }
 }
+
+/* ---- NEWS IMAGES ---- */
+.news-images { margin-top: 16px; display: grid; gap: 16px; }
+.news-images.multi { grid-template-columns: 1fr; }
+.news-image { width: 100%; max-width: 100%; border-radius: 14px; box-shadow: 0 10px 24px rgba(15,23,42,0.16); display: block; height: auto; }
+@media (min-width: 768px) { .news-images.multi { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
