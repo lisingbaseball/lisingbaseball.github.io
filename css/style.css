@@ -351,24 +351,37 @@ footer .footer-links { display: flex; gap: 1rem; justify-content: center; flex-w
 @media (min-width: 768px) { .news-images.multi { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* ---- ALUMNI PAGE ---- */
-.alumni-group { margin-bottom: 1.75rem; }
+.alumni-intro-card { background: var(--navy); color: white; border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 2rem; }
+.alumni-intro-card p { font-size: 0.9rem; line-height: 1.85; color: rgba(255,255,255,0.88); }
+.alumni-legend { margin-top: 0.85rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+
+.alumni-group { margin-bottom: 2rem; }
 .alumni-year-label {
   font-family: 'Oswald', sans-serif;
-  font-size: 1.15rem; font-weight: 700;
+  font-size: 1.2rem; font-weight: 700;
   color: var(--navy);
   border-left: 4px solid var(--gold);
-  padding-left: 0.75rem;
-  margin-bottom: 0.65rem;
+  padding: 0.2rem 0 0.2rem 0.85rem;
+  margin-bottom: 0.85rem;
+  letter-spacing: 0.02em;
 }
-.alumni-table { font-size: 0.84rem; }
-.alumni-table th { font-size: 0.78rem; letter-spacing: 0.03em; }
-.alumni-note { color: #8a95a3; font-size: 0.78rem; }
+
+.alumni-table-wrap { overflow-x: auto; border-radius: var(--radius); box-shadow: var(--shadow); -webkit-overflow-scrolling: touch; }
+.alumni-table { width: 100%; border-collapse: collapse; background: white; font-size: 0.88rem; min-width: 560px; }
+.alumni-table th { background: var(--navy); color: white; padding: 0.75rem 0.9rem; text-align: left; font-weight: 600; font-size: 0.8rem; white-space: nowrap; }
+.alumni-table td { padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.alumni-table tr:last-child td { border-bottom: none; }
+.alumni-table tr:hover td { background: #f8faff; }
+.alumni-note { color: #9ca3af; font-size: 0.78rem; }
+
 .alumni-badge {
   display: inline-block;
-  padding: 0.18rem 0.55rem;
+  padding: 0.2rem 0.6rem;
   border-radius: 20px;
   font-size: 0.72rem; font-weight: 600;
   white-space: nowrap;
 }
 .alumni-badge.active  { background: #d1fae5; color: #065f46; }
 .alumni-badge.retired { background: #f1f3f5; color: #6b7280; }
+
+.alumni-footer-note { font-size: 0.78rem; color: var(--text-muted); margin-top: 1.5rem; text-align: center; }
