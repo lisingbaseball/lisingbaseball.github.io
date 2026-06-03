@@ -67,16 +67,27 @@
 <main>
   <div class="home-grid">
 
-    <!-- 最新公告 -->
-    <div>
+    <!-- 最新公告（分欄） -->
+    <div style="grid-column:1/-1;">
       <div class="section-title">
         <div class="section-title-dot"></div>
         <h2>最新公告</h2>
         <div class="section-title-bar"></div>
         <a href="news.html" style="font-size:0.82rem;color:var(--text-muted);white-space:nowrap;">更多 &rsaquo;</a>
       </div>
-      <div class="card" id="home-news">
-        <div class="loading-box"><div class="spinner"></div>資料載入中…</div>
+      <div class="news-home-grid">
+        <div class="news-home-column">
+          <h3>📅 賽程公告</h3>
+          <div id="home-news-schedule">
+            <div class="loading-box"><div class="spinner"></div>資料載入中…</div>
+          </div>
+        </div>
+        <div class="news-home-column">
+          <h3>📢 球隊公告</h3>
+          <div id="home-news-general">
+            <div class="loading-box"><div class="spinner"></div>資料載入中…</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -207,24 +218,55 @@
 <script src="js/main.js"></script>
 <script>
 (async () => {
-  // 公告
-  const newsEl = document.getElementById('home-news');
+  // 公告（分賽程 / 球隊兩類）
+  const scheduleEl = document.getElementById('home-news-schedule');
+  const generalEl  = document.getElementById('home-news-general');
+  const SCHEDULE_CATS = ['賽程公告', '賽程預告', '賽事公告', '比賽公告'];
+
   const newsData = await fetchSheet('news');
-  if (newsData === null) { showPending(newsEl, '最新公告'); }
-  else if (!newsData.length) { showEmpty(newsEl, '目前尚無公告。'); }
-  else {
-    const sorted = newsData
+
+  function renderNewsList(el, items, emptyMsg) {
+    if (!items.length) { showEmpty(el, emptyMsg); return; }
+    const sorted = items
       .sort((a,b) => (b.pinned==='true'?1:-1) - (a.pinned==='true'?1:-1) || b.date.localeCompare(a.date))
       .slice(0, 5);
-    newsEl.innerHTML = sorted.map(n => `
-      <div class="news-item">
-        <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
-          ${n.pinned==='true' ? '<span class="badge badge-pinned">置頂</span>' : ''}
-          ${n.category ? `<span class="badge badge-gray">${n.category}</span>` : ''}
-          <span class="news-item-date">${formatDate(n.date)}</span>
-        </div>
-        <a href="news.html" class="news-item-title">${n.title || '（未填標題）'}</a>
-      </div>`).join('');
+    // 安全 DOM 渲染
+    el.innerHTML = '';
+    sorted.forEach(n => {
+      const item = document.createElement('div');
+      item.className = 'news-item';
+      const meta = document.createElement('div');
+      meta.style.cssText = 'display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;';
+      if (n.pinned === 'true') {
+        const pin = document.createElement('span');
+        pin.className = 'badge badge-pinned'; pin.textContent = '置頂';
+        meta.appendChild(pin);
+      }
+      if (n.category) {
+        const cat = document.createElement('span');
+        cat.className = 'badge badge-gray'; cat.textContent = n.category;
+        meta.appendChild(cat);
+      }
+      const dt = document.createElement('span');
+      dt.className = 'news-item-date'; dt.textContent = formatDate(n.date);
+      meta.appendChild(dt);
+      const link = document.createElement('a');
+      link.href = 'news.html'; link.className = 'news-item-title';
+      link.textContent = n.title || '（未填標題）';
+      item.appendChild(meta);
+      item.appendChild(link);
+      el.appendChild(item);
+    });
+  }
+
+  if (newsData === null) {
+    showPending(scheduleEl, '賽程公告');
+    showPending(generalEl,  '球隊公告');
+  } else {
+    const schedule = newsData.filter(n => SCHEDULE_CATS.includes((n.category || '').trim()));
+    const general  = newsData.filter(n => !SCHEDULE_CATS.includes((n.category || '').trim()));
+    renderNewsList(scheduleEl, schedule, '目前尚無賽程公告。');
+    renderNewsList(generalEl,  general,  '目前尚無球隊公告。');
   }
 
   // 榮譽
