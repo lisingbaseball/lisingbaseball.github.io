@@ -134,6 +134,27 @@ const SITE_CONFIG = {
 
 ---
 
+## 📷 球隊相簿頁面（albums.html）
+
+`albums.html` 從 Google Sheets `albums` 工作表讀取資料。
+
+#### 工作表：albums（球隊相簿）
+```
+date	title	description	album_url	cover_image
+```
+> - date：相簿日期（格式 2026-06-04）
+> - title：相簿名稱
+> - description：相簿簡介
+> - album_url：Google 相簿公開分享連結
+> - cover_image：封面圖片網址（可空白）
+
+**注意：** 球隊相簿採用 Google 相簿連結方式，不建議將大量照片直接上傳 GitHub。
+新增相簿時，請先在 Google 相簿建立相簿並開啟連結分享，再將相簿連結貼到 album_url 欄位。
+
+取得 albums CSV 網址後，貼入 `js/config.js` 的 `albums` 欄位即可。
+
+---
+
 ## 🌟 職棒校友頁面（alumni.html）
 
 `alumni.html` 為靜態頁面，資料直接寫在 HTML 中。

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>球隊相簿 - 台中市力行國小少棒隊</title>
+<meta name="description" content="力行少棒球隊相簿，記錄訓練、比賽與活動中的努力與成長。">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo-wrap">
+      <img src="assets/logo.png" alt="Logo">
+      <div class="logo-text">台中市力行國小少棒隊<span>LiSing Baseball</span></div>
+    </a>
+    <nav>
+      <a href="index.html">首頁</a><a href="about.html">關於球隊</a><a href="players.html">隊員介紹</a>
+      <a href="coaches.html">教練團</a><a href="news.html">球隊公告</a>
+      <a href="honors.html">榮譽榜</a><a href="alumni.html">職棒校友</a>
+      <a href="recruit.html">球員招募</a><a href="albums.html">球隊相簿</a><a href="contact.html">聯絡我們</a>
+    </nav>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="index.html">首頁</a><a href="about.html">關於球隊</a><a href="players.html">隊員介紹</a>
+    <a href="coaches.html">教練團</a><a href="news.html">球隊公告</a>
+    <a href="honors.html">榮譽榜</a><a href="alumni.html">職棒校友</a>
+    <a href="recruit.html">球員招募</a><a href="albums.html">球隊相簿</a><a href="contact.html">聯絡我們</a>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <h1>球隊相簿</h1>
+  <p>記錄孩子們在訓練、比賽與活動中的努力與成長。</p>
+</div>
+
+<main>
+  <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.8;margin-bottom:1.5rem;">
+    這裡整理力行少棒的訓練花絮、比賽照片、活動紀錄與校園交流影像。相簿照片將以 Google 相簿連結方式開啟，方便家長、校友與關心球隊的朋友瀏覽。
+  </p>
+  <div class="albums-grid" id="albums-list">
+    <div class="loading-box" style="grid-column:1/-1;"><div class="spinner"></div>資料載入中…</div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-name">台中市力行國小少棒隊 LiSing Baseball</div>
+  <div class="footer-links">
+    <a href="about.html">關於球隊</a>
+    <a href="albums.html">球隊相簿</a>
+    <a href="contact.html">聯絡我們</a>
+  </div>
+  <div>© 2026 台中市力行國小少棒隊</div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/sheets.js"></script>
+<script src="js/main.js"></script>
+<script>
+(async () => {
+  const el = document.getElementById('albums-list');
+  const data = await fetchSheet('albums');
+
+  if (data === null) {
+    el.innerHTML = '<div class="empty-box" style="grid-column:1/-1;">📷 球隊相簿資料整理中，敬請期待。</div>';
+    return;
+  }
+  if (!data.length) {
+    el.innerHTML = '<div class="empty-box" style="grid-column:1/-1;">目前尚無相簿。</div>';
+    return;
+  }
+
+  const sorted = data.sort((a, b) => b.date.localeCompare(a.date));
+
+  el.innerHTML = '';
+  sorted.forEach(album => {
+    const card = document.createElement('div');
+    card.className = 'album-card';
+
+    // 封面圖
+    if (album.cover_image) {
+      const img = document.createElement('img');
+      img.className = 'album-cover';
+      img.src = album.cover_image;
+      img.alt = album.title || '相簿封面';
+      img.loading = 'lazy';
+      img.onerror = () => { img.style.display = 'none'; };
+      card.appendChild(img);
+    } else {
+      const placeholder = document.createElement('div');
+      placeholder.className = 'album-cover album-cover-placeholder';
+      placeholder.innerHTML = '<span style="font-size:2.5rem;">📷</span>';
+      card.appendChild(placeholder);
+    }
+
+    // 卡片內容
+    const body = document.createElement('div');
+    body.className = 'album-card-body';
+
+    const date = document.createElement('div');
+    date.className = 'album-date';
+    date.textContent = formatDate(album.date);
+    body.appendChild(date);
+
+    const title = document.createElement('div');
+    title.className = 'album-title';
+    title.textContent = album.title || '（未填名稱）';
+    body.appendChild(title);
+
+    if (album.description) {
+      const desc = document.createElement('div');
+      desc.className = 'album-description';
+      desc.textContent = album.description;
+      body.appendChild(desc);
+    }
+
+    if (album.album_url) {
+      const btn = document.createElement('a');
+      btn.className = 'album-button';
+      btn.href = album.album_url;
+      btn.target = '_blank';
+      btn.rel = 'noopener noreferrer';
+      btn.textContent = '查看相簿';
+      body.appendChild(btn);
+    }
+
+    card.appendChild(body);
+    el.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>
