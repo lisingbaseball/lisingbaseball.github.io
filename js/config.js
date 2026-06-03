@@ -13,7 +13,7 @@ const SHEET_URLS = {
 
 // ---- 網站基本資訊（可自行修改）----
 const SITE_CONFIG = {
-  teamName:    '台中市力行國小棒球隊',
+  teamName:    '台中市力行國小少棒隊',
   teamNameEn:  'LiSing Baseball',
   tagline:     '從力行紅土出發，讓孩子在棒球中學會謙虛、態度與禮儀。',
   description: '台中市東區力行國小少棒隊自 1988 年成軍以來，長期以紀律、基本功與扎實訓練聞名。',
