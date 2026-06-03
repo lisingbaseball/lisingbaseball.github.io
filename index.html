@@ -225,55 +225,45 @@
 <script src="js/main.js"></script>
 <script>
 (async () => {
-  // 公告（分賽程 / 球隊兩類）
-  const scheduleEl = document.getElementById('home-news-schedule');
-  const generalEl  = document.getElementById('home-news-general');
-  const SCHEDULE_CATS = ['賽程公告', '賽程預告', '賽事公告', '比賽公告'];
-
+  // 球隊公告
+  const generalEl = document.getElementById('home-news-general');
   const newsData = await fetchSheet('news');
 
-  function renderNewsList(el, items, emptyMsg) {
-    if (!items.length) { showEmpty(el, emptyMsg); return; }
-    const sorted = items
+  if (newsData === null) {
+    showPending(generalEl, '球隊公告');
+  } else {
+    const sorted = newsData
       .sort((a,b) => (b.pinned==='true'?1:-1) - (a.pinned==='true'?1:-1) || b.date.localeCompare(a.date))
       .slice(0, 5);
-    // 安全 DOM 渲染
-    el.innerHTML = '';
-    sorted.forEach(n => {
-      const item = document.createElement('div');
-      item.className = 'news-item';
-      const meta = document.createElement('div');
-      meta.style.cssText = 'display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;';
-      if (n.pinned === 'true') {
-        const pin = document.createElement('span');
-        pin.className = 'badge badge-pinned'; pin.textContent = '置頂';
-        meta.appendChild(pin);
-      }
-      if (n.category) {
-        const cat = document.createElement('span');
-        cat.className = 'badge badge-gray'; cat.textContent = n.category;
-        meta.appendChild(cat);
-      }
-      const dt = document.createElement('span');
-      dt.className = 'news-item-date'; dt.textContent = formatDate(n.date);
-      meta.appendChild(dt);
-      const link = document.createElement('a');
-      link.href = 'news.html'; link.className = 'news-item-title';
-      link.textContent = n.title || '（未填標題）';
-      item.appendChild(meta);
-      item.appendChild(link);
-      el.appendChild(item);
-    });
-  }
-
-  if (newsData === null) {
-    showPending(scheduleEl, '賽程公告');
-    showPending(generalEl,  '球隊公告');
-  } else {
-    const schedule = newsData.filter(n => SCHEDULE_CATS.includes((n.category || '').trim()));
-    const general  = newsData.filter(n => !SCHEDULE_CATS.includes((n.category || '').trim()));
-    renderNewsList(scheduleEl, schedule, '目前尚無賽程公告。');
-    renderNewsList(generalEl,  general,  '目前尚無球隊公告。');
+    if (!sorted.length) { showEmpty(generalEl, '目前尚無公告。'); }
+    else {
+      generalEl.innerHTML = '';
+      sorted.forEach(n => {
+        const item = document.createElement('div');
+        item.className = 'news-item';
+        const meta = document.createElement('div');
+        meta.style.cssText = 'display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;';
+        if (n.pinned === 'true') {
+          const pin = document.createElement('span');
+          pin.className = 'badge badge-pinned'; pin.textContent = '置頂';
+          meta.appendChild(pin);
+        }
+        if (n.category) {
+          const cat = document.createElement('span');
+          cat.className = 'badge badge-gray'; cat.textContent = n.category;
+          meta.appendChild(cat);
+        }
+        const dt = document.createElement('span');
+        dt.className = 'news-item-date'; dt.textContent = formatDate(n.date);
+        meta.appendChild(dt);
+        const link = document.createElement('a');
+        link.href = 'news.html'; link.className = 'news-item-title';
+        link.textContent = n.title || '（未填標題）';
+        item.appendChild(meta);
+        item.appendChild(link);
+        generalEl.appendChild(item);
+      });
+    }
   }
 
   // 榮譽
