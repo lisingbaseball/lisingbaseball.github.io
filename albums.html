@@ -100,7 +100,9 @@
 
     const date = document.createElement('div');
     date.className = 'album-date';
-    date.textContent = formatDate(album.date);
+    // 只顯示年份
+    const year = album.date ? String(album.date).match(/\d{4}/) : null;
+    date.textContent = year ? year[0] : '';
     body.appendChild(date);
 
     const title = document.createElement('div');
