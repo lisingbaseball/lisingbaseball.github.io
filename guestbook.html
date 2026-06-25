@@ -17,16 +17,74 @@
   line-height: 1.8;
 }
 
-.guestbook-action {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+.guestbook-form-section {
+  background: #ffffff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem 1.5rem 1rem;
   margin-bottom: 2rem;
 }
-.guestbook-action-note {
-  font-size: 0.82rem;
+.guestbook-form-section h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 1rem;
+}
+.gb-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.gb-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.gb-field label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+.gb-field input,
+.gb-field select,
+.gb-field textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #c7d4f0;
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+  color: #333;
+  background: #f8f9fc;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.gb-field input:focus,
+.gb-field select:focus,
+.gb-field textarea:focus {
+  outline: none;
+  border-color: var(--navy);
+  background: #fff;
+}
+.gb-field textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+.gb-success-msg {
+  display: none;
+  font-size: 0.88rem;
+  color: #2a6e3a;
+  background: #eafbee;
+  border: 1px solid #b2e0bc;
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 1rem;
+  line-height: 1.6;
+}
+.guestbook-form-note {
+  font-size: 0.8rem;
   color: var(--text-muted);
+  margin-top: 0.75rem;
+  line-height: 1.7;
 }
 
 .guestbook-list {
@@ -155,9 +213,43 @@
     歡迎家長、校友與支持力行少棒的朋友留下鼓勵與建議。為保護孩子與維護網站品質，留言將由管理者確認後再公開顯示。
   </div>
 
-  <div class="guestbook-action">
-    <a href="#" class="btn btn-primary" id="leave-message-btn">我要留言</a>
-    <span class="guestbook-action-note">留言送出後，將由管理者確認內容後再公開顯示。</span>
+  <div class="guestbook-form-section">
+    <h2>💬 我要留言</h2>
+    <form id="gb-form" class="gb-form" novalidate>
+      <div class="gb-field">
+        <label for="gb-name">留言人稱呼 <span style="color:#c0392b;">*</span></label>
+        <input type="text" id="gb-name" name="name" placeholder="請輸入您的稱呼" required>
+      </div>
+      <div class="gb-field">
+        <label for="gb-role">身份 <span style="color:#c0392b;">*</span></label>
+        <select id="gb-role" name="role" required>
+          <option value="">請選擇</option>
+          <option value="家長">家長</option>
+          <option value="校友">校友</option>
+          <option value="球迷">球迷</option>
+          <option value="訪客">訪客</option>
+          <option value="其他">其他</option>
+        </select>
+      </div>
+      <div class="gb-field">
+        <label for="gb-message">留言內容 <span style="color:#c0392b;">*</span></label>
+        <textarea id="gb-message" name="message" placeholder="請輸入您的留言…" required></textarea>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary" id="gb-submit-btn">送出留言</button>
+      </div>
+      <div class="gb-success-msg" id="gb-success-msg">
+        留言已送出，系統會自動更新留言板。若沒有立即看到，請稍後重新整理。
+      </div>
+    </form>
+    <p class="guestbook-form-note">請勿填寫學生個資、電話、住址或其他私人資料。留言送出後將直接顯示於網站，如需刪除請聯繫球隊管理者。</p>
+  </div>
+
+  <hr class="divider">
+  <div class="section-title mt-2">
+    <div class="section-title-dot"></div>
+    <h2>公開留言</h2>
+    <div class="section-title-bar"></div>
   </div>
 
   <div id="guestbook-list">
@@ -178,6 +270,33 @@
 <script src="js/config.js"></script>
 <script src="js/sheets.js"></script>
 <script src="js/main.js"></script>
+<script>
+const GB_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwpsOCv_BH63wdl2kEAkKHXqeclVl9E9KPF011cMJtI8KGF7itf_c9ifAiiOIcvpNy0jQ/exec';
+
+document.getElementById('gb-form').addEventListener('submit', async function (e) {
+  e.preventDefault();
+  const form = this;
+  const btn = document.getElementById('gb-submit-btn');
+  const successMsg = document.getElementById('gb-success-msg');
+  const name = form.querySelector('[name="name"]').value.trim();
+  const role = form.querySelector('[name="role"]').value;
+  const message = form.querySelector('[name="message"]').value.trim();
+  if (!name || !role || !message) return;
+  btn.disabled = true;
+  btn.textContent = '送出中…';
+  try {
+    await fetch(GB_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: new URLSearchParams({ name, role, message })
+    });
+  } catch (_) {}
+  successMsg.style.display = 'block';
+  form.reset();
+  btn.disabled = false;
+  btn.textContent = '送出留言';
+});
+</script>
 <script>
 (async () => {
   const el = document.getElementById('guestbook-list');
