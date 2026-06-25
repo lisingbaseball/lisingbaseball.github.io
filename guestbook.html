@@ -215,7 +215,10 @@
 
   <div class="guestbook-form-section">
     <h2>💬 我要留言</h2>
-    <form id="gb-form" class="gb-form" novalidate>
+    <iframe name="gb-hidden-frame" style="display:none;"></iframe>
+    <form id="gb-form" class="gb-form" method="POST"
+          action="https://script.google.com/macros/s/AKfycbwfg6iWsXTLf52N-wbCLtQHnS1Y_0rxH8OfS5yKBG20MdHtbYfKoGuLiCZm7AoCNyJG/exec"
+          target="gb-hidden-frame">
       <div class="gb-field">
         <label for="gb-name">留言人稱呼 <span style="color:#c0392b;">*</span></label>
         <input type="text" id="gb-name" name="name" placeholder="請輸入您的稱呼" required>
@@ -239,7 +242,7 @@
         <button type="submit" class="btn btn-primary" id="gb-submit-btn">送出留言</button>
       </div>
       <div class="gb-success-msg" id="gb-success-msg">
-        留言已送出，系統會自動更新留言板。若沒有立即看到，請稍後重新整理。
+        留言已送出，若沒有立即看到，請稍後重新整理。
       </div>
     </form>
     <p class="guestbook-form-note">請勿填寫學生個資、電話、住址或其他私人資料。留言送出後將直接顯示於網站，如需刪除請聯繫球隊管理者。</p>
@@ -271,30 +274,22 @@
 <script src="js/sheets.js"></script>
 <script src="js/main.js"></script>
 <script>
-const GB_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwpsOCv_BH63wdl2kEAkKHXqeclVl9E9KPF011cMJtI8KGF7itf_c9ifAiiOIcvpNy0jQ/exec';
-
-document.getElementById('gb-form').addEventListener('submit', async function (e) {
-  e.preventDefault();
-  const form = this;
-  const btn = document.getElementById('gb-submit-btn');
+document.getElementById('gb-form').addEventListener('submit', function (e) {
+  const name = this.querySelector('[name="name"]').value.trim();
+  const role = this.querySelector('[name="role"]').value;
+  const message = this.querySelector('[name="message"]').value.trim();
+  if (!name || !role || !message) { e.preventDefault(); return; }
   const successMsg = document.getElementById('gb-success-msg');
-  const name = form.querySelector('[name="name"]').value.trim();
-  const role = form.querySelector('[name="role"]').value;
-  const message = form.querySelector('[name="message"]').value.trim();
-  if (!name || !role || !message) return;
+  const btn = document.getElementById('gb-submit-btn');
   btn.disabled = true;
   btn.textContent = '送出中…';
-  try {
-    await fetch(GB_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      body: new URLSearchParams({ name, role, message })
-    });
-  } catch (_) {}
-  successMsg.style.display = 'block';
-  form.reset();
-  btn.disabled = false;
-  btn.textContent = '送出留言';
+  setTimeout(function () {
+    successMsg.style.display = 'block';
+    document.getElementById('gb-form').reset();
+    btn.disabled = false;
+    btn.textContent = '送出留言';
+    setTimeout(function () { location.reload(); }, 2000);
+  }, 800);
 });
 </script>
 <script>
