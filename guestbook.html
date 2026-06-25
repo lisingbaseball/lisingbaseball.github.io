@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>留言板 - 台中市力行國小少棒隊</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+.guestbook-intro {
+  background: #f0f4ff;
+  border: 1px solid #c7d4f0;
+  border-radius: var(--radius);
+  padding: 1.1rem 1.4rem;
+  margin-bottom: 1.75rem;
+  color: #3a4a6a;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.guestbook-action {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.guestbook-action-note {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.guestbook-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.gb-card {
+  background: #ffffff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem 1.4rem;
+  border-left: 4px solid transparent;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+.gb-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+.gb-card.pinned {
+  border-left-color: var(--gold);
+}
+
+.gb-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.65rem;
+}
+.gb-number {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: #eef0f4;
+  padding: 0.15rem 0.55rem;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+.gb-date {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.gb-sep {
+  color: var(--border);
+  font-size: 0.75rem;
+}
+.gb-role {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.gb-name {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--navy);
+}
+
+.gb-message {
+  font-size: 0.92rem;
+  color: #333;
+  line-height: 1.85;
+  white-space: pre-wrap;
+  margin-bottom: 0;
+}
+
+.gb-reply {
+  background: #f8f9fc;
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  margin-top: 1rem;
+  border-left: 3px solid var(--navy);
+}
+.gb-reply-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.gb-reply-text {
+  font-size: 0.88rem;
+  color: #444;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo-wrap">
+      <img src="assets/logo.png" alt="力行少棒 Logo">
+      <div class="logo-text">台中市力行國小少棒隊<span>LiSing Baseball</span></div>
+    </a>
+    <nav>
+      <a href="index.html">首頁</a><a href="about.html">關於球隊</a><a href="players.html">隊員介紹</a>
+      <a href="coaches.html">教練團</a><a href="news.html">球隊公告</a>
+      <a href="honors.html">榮譽榜</a><a href="alumni.html">職棒校友</a>
+      <a href="recruit.html">球員招募</a><a href="albums.html">球隊相簿</a>
+      <a href="guestbook.html">留言板</a><a href="contact.html">聯絡我們</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="選單">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="index.html">首頁</a><a href="about.html">關於球隊</a><a href="players.html">隊員介紹</a>
+    <a href="coaches.html">教練團</a><a href="news.html">球隊公告</a>
+    <a href="honors.html">榮譽榜</a><a href="alumni.html">職棒校友</a>
+    <a href="recruit.html">球員招募</a><a href="albums.html">球隊相簿</a>
+    <a href="guestbook.html">留言板</a><a href="contact.html">聯絡我們</a>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <h1>留言板</h1>
+  <p>家長、校友與支持力行少棒的朋友的心聲</p>
+</div>
+
+<main>
+  <div class="guestbook-intro">
+    歡迎家長、校友與支持力行少棒的朋友留下鼓勵與建議。為保護孩子與維護網站品質，留言將由管理者確認後再公開顯示。
+  </div>
+
+  <div class="guestbook-action">
+    <a href="#" class="btn btn-primary" id="leave-message-btn">我要留言</a>
+    <span class="guestbook-action-note">留言送出後，將由管理者確認內容後再公開顯示。</span>
+  </div>
+
+  <div id="guestbook-list">
+    <div class="loading-box"><div class="spinner"></div>資料載入中…</div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-name">台中市力行國小少棒隊 LiSing Baseball</div>
+  <div class="footer-links">
+    <a href="about.html">關於球隊</a>
+    <a href="contact.html">聯絡我們</a>
+    <a href="news.html">公告</a>
+  </div>
+  <div>© 2026 台中市力行國小少棒隊</div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/sheets.js"></script>
+<script src="js/main.js"></script>
+<script>
+(async () => {
+  const el = document.getElementById('guestbook-list');
+
+  if (!SHEET_URLS.guestbook || SHEET_URLS.guestbook.trim() === '') {
+    el.innerHTML = '<div class="empty-box">⚾ 留言板資料尚未設定。</div>';
+    return;
+  }
+
+  const data = await fetchSheet('guestbook');
+
+  if (data === null) {
+    el.innerHTML = '<div class="empty-box">留言資料載入中，請稍後再試。</div>';
+    return;
+  }
+
+  const approved = data.filter(r => (r.status || '').trim().toLowerCase() === 'approved');
+
+  if (!approved.length) {
+    el.innerHTML = '<div class="empty-box">目前尚無留言，歡迎留下您的鼓勵！</div>';
+    return;
+  }
+
+  const sorted = approved.sort((a, b) => {
+    const aPin = (a.pinned || '').trim().toLowerCase() === 'true';
+    const bPin = (b.pinned || '').trim().toLowerCase() === 'true';
+    if (aPin && !bPin) return -1;
+    if (!aPin && bPin) return 1;
+    const dateCmp = (b.date || '').localeCompare(a.date || '');
+    if (dateCmp !== 0) return dateCmp;
+    return (b.id || '').localeCompare(a.id || '');
+  });
+
+  el.innerHTML = '';
+  const list = document.createElement('div');
+  list.className = 'guestbook-list';
+
+  sorted.forEach(r => {
+    const isPinned = (r.pinned || '').trim().toLowerCase() === 'true';
+    const card = document.createElement('div');
+    card.className = 'gb-card' + (isPinned ? ' pinned' : '');
+
+    const header = document.createElement('div');
+    header.className = 'gb-card-header';
+
+    if (isPinned) {
+      const pin = document.createElement('span');
+      pin.className = 'badge badge-pinned';
+      pin.textContent = '置頂';
+      header.appendChild(pin);
+    }
+
+    if (r.id) {
+      const num = document.createElement('span');
+      num.className = 'gb-number';
+      num.textContent = '#' + r.id;
+      header.appendChild(num);
+    }
+
+    if (r.date) {
+      const dt = document.createElement('span');
+      dt.className = 'gb-date';
+      dt.textContent = formatDate(r.date);
+      header.appendChild(dt);
+
+      const sep = document.createElement('span');
+      sep.className = 'gb-sep';
+      sep.textContent = '｜';
+      header.appendChild(sep);
+    }
+
+    if (r.role) {
+      const role = document.createElement('span');
+      role.className = 'gb-role';
+      role.textContent = r.role;
+      header.appendChild(role);
+
+      const sep2 = document.createElement('span');
+      sep2.className = 'gb-sep';
+      sep2.textContent = '｜';
+      header.appendChild(sep2);
+    }
+
+    if (r.name) {
+      const name = document.createElement('span');
+      name.className = 'gb-name';
+      name.textContent = r.name;
+      header.appendChild(name);
+    }
+
+    card.appendChild(header);
+
+    const msg = document.createElement('div');
+    msg.className = 'gb-message';
+    msg.textContent = r.message || '';
+    card.appendChild(msg);
+
+    if (r.reply && r.reply.trim() !== '') {
+      const replyBox = document.createElement('div');
+      replyBox.className = 'gb-reply';
+
+      const replyLabel = document.createElement('div');
+      replyLabel.className = 'gb-reply-label';
+      replyLabel.textContent = '球隊回覆';
+      replyBox.appendChild(replyLabel);
+
+      const replyText = document.createElement('div');
+      replyText.className = 'gb-reply-text';
+      replyText.textContent = r.reply;
+      replyBox.appendChild(replyText);
+
+      card.appendChild(replyBox);
+    }
+
+    list.appendChild(card);
+  });
+
+  el.appendChild(list);
+})();
+</script>
+</body>
+</html>

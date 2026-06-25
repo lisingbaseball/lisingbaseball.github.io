@@ -9,7 +9,8 @@ const SHEET_URLS = {
   news:     'https://docs.google.com/spreadsheets/d/e/2PACX-1vTlop8U7C1HF-IM1gFNKVIF3QfpDNg7fyEM-bxiOxwGKwW055VHZrpCXKfEfoe5XD5ZsYV3f3C3wNad/pub?gid=877393229&single=true&output=csv',
   honors:   'https://docs.google.com/spreadsheets/d/e/2PACX-1vTlop8U7C1HF-IM1gFNKVIF3QfpDNg7fyEM-bxiOxwGKwW055VHZrpCXKfEfoe5XD5ZsYV3f3C3wNad/pub?gid=1839433959&single=true&output=csv',
   alumni:   'https://docs.google.com/spreadsheets/d/e/2PACX-1vTlop8U7C1HF-IM1gFNKVIF3QfpDNg7fyEM-bxiOxwGKwW055VHZrpCXKfEfoe5XD5ZsYV3f3C3wNad/pub?gid=2019826684&single=true&output=csv',
-  albums:   'https://docs.google.com/spreadsheets/d/e/2PACX-1vTlop8U7C1HF-IM1gFNKVIF3QfpDNg7fyEM-bxiOxwGKwW055VHZrpCXKfEfoe5XD5ZsYV3f3C3wNad/pub?gid=699614821&single=true&output=csv'
+  albums:   'https://docs.google.com/spreadsheets/d/e/2PACX-1vTlop8U7C1HF-IM1gFNKVIF3QfpDNg7fyEM-bxiOxwGKwW055VHZrpCXKfEfoe5XD5ZsYV3f3C3wNad/pub?gid=699614821&single=true&output=csv',
+  guestbook: ''
 };
 
 // ---- 網站基本資訊（可自行修改）----
