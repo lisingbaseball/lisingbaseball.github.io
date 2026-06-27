@@ -242,7 +242,7 @@
         <button type="submit" class="btn btn-primary" id="gb-submit-btn">送出留言</button>
       </div>
       <div class="gb-success-msg" id="gb-success-msg">
-        留言已送出，若沒有立即看到，請稍後重新整理。
+        留言已送出，感謝您的留言。留言約 1～3 分鐘後會顯示在留言板上。
       </div>
     </form>
     <p class="guestbook-form-note">請勿填寫學生個資、電話、住址或其他私人資料。留言送出後將直接顯示於網站，如需刪除請聯繫球隊管理者。</p>
@@ -274,22 +274,23 @@
 <script src="js/sheets.js"></script>
 <script src="js/main.js"></script>
 <script>
-document.getElementById('gb-form').addEventListener('submit', function (e) {
-  const name = this.querySelector('[name="name"]').value.trim();
-  const role = this.querySelector('[name="role"]').value;
-  const message = this.querySelector('[name="message"]').value.trim();
-  if (!name || !role || !message) { e.preventDefault(); return; }
-  const successMsg = document.getElementById('gb-success-msg');
+document.getElementById('gb-form').addEventListener('submit', function () {
   const btn = document.getElementById('gb-submit-btn');
+  const successMsg = document.getElementById('gb-success-msg');
+  const form = document.getElementById('gb-form');
+
   btn.disabled = true;
-  btn.textContent = '送出中…';
+  btn.textContent = '送出成功';
+
   setTimeout(function () {
+    form.reset();
     successMsg.style.display = 'block';
-    document.getElementById('gb-form').reset();
+  }, 500);
+
+  setTimeout(function () {
     btn.disabled = false;
     btn.textContent = '送出留言';
-    setTimeout(function () { location.reload(); }, 2000);
-  }, 800);
+  }, 2500);
 });
 </script>
 <script>
